@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet"
+      href="/shared/HTML-Template-Library/HTML-Templates-V3-western/pages/../_assets/thirdpartylib/bootstrap-4.3.1/css/bootstrap.min.css">
+
+   <!-- Font Awesome CSS -->
+   <link rel="stylesheet"
+      href="/shared/HTML-Template-Library/HTML-Templates-V3-western/pages/../_assets/thirdpartylib/fontawesome-free-5.9.0-web/css/all.min.css">
+
+   <!-- Template CSS -->
+   <link rel="stylesheet"
+      href="/shared/HTML-Template-Library/HTML-Templates-V3-western/pages/../_assets/css/styles.min.css">
+
+   <link rel="stylesheet"
+      href="/shared/HTML-Template-Library/HTML-Templates-V3-western/pages/../_assets/css/custom.css">
+
+   <title>D2L Style Flip Cards</title>
+
+   <style>
+
+      body {
+         background: #f7f7f7;
+      }
+
+      .main-wrapper {
+         padding: 40px 0;
+      }
+
+      .builder-box {
+         background: white;
+         border-radius: 10px;
+         padding: 35px;
+         box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      }
+
+      .card-builder {
+         border: 1px solid #d9d9d9;
+         border-radius: 8px;
+         padding: 25px;
+         margin-bottom: 35px;
+         background: #fff;
+      }
+
+      .builder-header {
+         font-size: 1.5rem;
+         font-weight: 700;
+         margin-bottom: 25px;
+      }
+
+      .tabs {
+         display: flex;
+         border-bottom: 2px solid #eee;
+         margin-bottom: 25px;
+      }
+
+      .tab-btn {
+         border: none;
+         background: none;
+         padding: 12px 25px;
+         font-size: 1rem;
+         font-weight: 600;
+         cursor: pointer;
+         border-bottom: 3px solid transparent;
+      }
+
+      .tab-btn.active {
+         color: #007bff;
+         border-color: #007bff;
+      }
+
+      .tab-content {
+         display: none;
+      }
+
+      .tab-content.active {
+         display: block;
+      }
+
+      .media-preview {
+         margin-top: 12px;
+      }
+
+      .media-preview img,
+      .media-preview video {
+         width: 120px;
+         border-radius: 8px;
+      }
+
+      textarea {
+         resize: vertical;
+      }
+
+      .action-buttons {
+         margin-top: 30px;
+         display: flex;
+         gap: 15px;
+         flex-wrap: wrap;
+      }
+
+      .preview-section {
+         display: none;
+         margin-top: 50px;
+      }
+
+      .preview-grid {
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         gap: 30px;
+      }
+
+      @media(max-width: 768px) {
+
+         .preview-grid {
+            grid-template-columns: 1fr;
+         }
+
+      }
+
+      /* FLIP CARD */
+
+      .flip-card {
+         perspective: 1200px;
+         height: 500px;
+      }
+
+      .flip-inner {
+         position: relative;
+         width: 100%;
+         height: 100%;
+         transition: transform 0.8s;
+         transform-style: preserve-3d;
+      }
+
+      .flip-card.flipped .flip-inner {
+         transform: rotateY(180deg);
+      }
+
+      .flip-front,
+      .flip-back {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         backface-visibility: hidden;
+         border-radius: 12px;
+         overflow: hidden;
+         background: white;
+         border: 2px solid #d9d9d9;
+         box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      }
+
+      .flip-back {
+         transform: rotateY(180deg);
+      }
+
+      .flip-media {
+         width: 100%;
+         height: 220px;
+         object-fit: cover;
+         background: #eee;
+      }
+
+      .flip-body {
+         padding: 25px;
+      }
+
+      .flip-title {
+         font-size: 1.4rem;
+         font-weight: 700;
+         margin-bottom: 15px;
+      }
+
+      .flip-text {
+         line-height: 1.7;
+         color: #555;
+      }
+
+      .flip-toggle {
+         position: absolute;
+         bottom: 18px;
+         right: 18px;
+         width: 50px;
+         height: 50px;
+         border-radius: 50%;
+         border: none;
+         background: #007bff;
+         color: white;
+         font-size: 18px;
+         cursor: pointer;
+      }
+
+      .preview-buttons {
+         margin-top: 40px;
+         display: flex;
+         gap: 15px;
+      }
+
+   </style>
+
+</head>
+
+<body>
+
+<div class="container-fluid main-wrapper">
+
+<div class="row">
+
+<div class="col-lg-10 offset-lg-1">
+
+<div class="builder-box">
+
+<h1 class="mb-4">Flip Card Builder</h1>
+
+<div id="cardContainer"></div>
+
+<button class="btn btn-outline-primary mb-4" id="addRowBtn">
+   <i class="fas fa-plus"></i> Add Row
+</button>
+
+<div class="action-buttons">
+
+   <button class="btn btn-primary" id="previewBtn">
+      Preview
+   </button>
+
+</div>
+
+<!-- PREVIEW SECTION -->
+
+<div class="preview-section" id="previewSection">
+
+   <h2 class="mb-4">Preview</h2>
+
+   <div class="preview-grid" id="previewGrid"></div>
+
+   <div class="preview-buttons">
+
+      <button class="btn btn-secondary" id="backBtn">
+         Back
+      </button>
+
+      <button class="btn btn-success" id="submitBtn">
+         Submit
+      </button>
+
+   </div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script>
+
+let cardCount = 0;
+
+const cardContainer = document.getElementById("cardContainer");
+
+function createCardBuilder() {
+
+   cardCount++;
+
+   const wrapper = document.createElement("div");
+
+   wrapper.className = "card-builder";
+
+   wrapper.innerHTML = `
+
+      <div class="builder-header">
+         Row ${cardCount} Flip Card
+      </div>
+
+      <div class="tabs">
+
+         <button class="tab-btn active" data-tab="front-${cardCount}">
+            Front
+         </button>
+
+         <button class="tab-btn" data-tab="back-${cardCount}">
+            Back
+         </button>
+
+      </div>
+
+      <!-- FRONT -->
+
+      <div class="tab-content active" id="front-${cardCount}">
+
+         <div class="form-group">
+            <label><strong>Title</strong></label>
+            <input type="text" class="form-control front-title">
+         </div>
+
+         <div class="form-group">
+            <label><strong>Content</strong></label>
+            <textarea class="form-control front-content" rows="4"></textarea>
+         </div>
+
+         <div class="form-group">
+            <label><strong>Upload File</strong></label>
+            <input type="file" class="form-control-file front-file"
+               accept="image/*,video/*,.gif">
+            <div class="media-preview front-preview"></div>
+         </div>
+
+      </div>
+
+      <!-- BACK -->
+
+      <div class="tab-content" id="back-${cardCount}">
+
+         <div class="form-group">
+            <label><strong>Title</strong></label>
+            <input type="text" class="form-control back-title">
+         </div>
+
+         <div class="form-group">
+            <label><strong>Content</strong></label>
+            <textarea class="form-control back-content" rows="4"></textarea>
+         </div>
+
+         <div class="form-group">
+            <label><strong>Upload File</strong></label>
+            <input type="file" class="form-control-file back-file"
+               accept="image/*,video/*,.gif">
+            <div class="media-preview back-preview"></div>
+         </div>
+
+      </div>
+
+   `;
+
+   cardContainer.appendChild(wrapper);
+
+   setupTabs(wrapper);
+   setupFilePreview(wrapper);
+
+}
+
+function setupTabs(wrapper) {
+
+   const buttons = wrapper.querySelectorAll(".tab-btn");
+
+   buttons.forEach(btn => {
+
+      btn.addEventListener("click", function() {
+
+         wrapper.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+
+         wrapper.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+         this.classList.add("active");
+
+         document.getElementById(this.dataset.tab).classList.add("active");
+
+      });
+
+   });
+
+}
+
+function setupFilePreview(wrapper) {
+
+   const fileInputs = wrapper.querySelectorAll("input[type='file']");
+
+   fileInputs.forEach(input => {
+
+      input.addEventListener("change", function() {
+
+         const preview = this.parentElement.querySelector(".media-preview");
+
+         preview.innerHTML = "";
+
+         const file = this.files[0];
+
+         if (!file) return;
+
+         const url = URL.createObjectURL(file);
+
+         if (file.type.startsWith("image")) {
+
+            preview.innerHTML = `
+               <img src="${url}">
+            `;
+
+         } else if (file.type.startsWith("video")) {
+
+            preview.innerHTML = `
+               <video src="${url}" controls></video>
+            `;
+         }
+
+      });
+
+   });
+
+}
+
+function getMediaHTML(fileInput) {
+
+   const file = fileInput.files[0];
+
+   if (!file) return "";
+
+   const url = URL.createObjectURL(file);
+
+   if (file.type.startsWith("image")) {
+
+      return `<img src="${url}" class="flip-media">`;
+
+   }
+
+   if (file.type.startsWith("video")) {
+
+      return `
+         <video class="flip-media" controls>
+            <source src="${url}" type="${file.type}">
+         </video>
+      `;
+   }
+
+   return "";
+
+}
+
+document.getElementById("addRowBtn").addEventListener("click", createCardBuilder);
+
+createCardBuilder();
+
+document.getElementById("previewBtn").addEventListener("click", function() {
+
+   const previewSection = document.getElementById("previewSection");
+
+   const previewGrid = document.getElementById("previewGrid");
+
+   previewGrid.innerHTML = "";
+
+   const builders = document.querySelectorAll(".card-builder");
+
+   builders.forEach(builder => {
+
+      const frontTitle = builder.querySelector(".front-title").value;
+      const frontContent = builder.querySelector(".front-content").value;
+      const frontFile = builder.querySelector(".front-file");
+
+      const backTitle = builder.querySelector(".back-title").value;
+      const backContent = builder.querySelector(".back-content").value;
+      const backFile = builder.querySelector(".back-file");
+
+      const frontMedia = getMediaHTML(frontFile);
+      const backMedia = getMediaHTML(backFile);
+
+      const flipCard = document.createElement("div");
+
+      flipCard.className = "flip-card";
+
+      flipCard.innerHTML = `
+
+         <div class="flip-inner">
+
+            <!-- FRONT -->
+
+            <div class="flip-front">
+
+               ${frontMedia}
+
+               <div class="flip-body">
+
+                  <div class="flip-title">
+                     ${frontTitle}
+                  </div>
+
+                  <div class="flip-text">
+                     ${frontContent}
+                  </div>
+
+               </div>
+
+               <button class="flip-toggle">
+                  <i class="fas fa-sync-alt"></i>
+               </button>
+
+            </div>
+
+            <!-- BACK -->
+
+            <div class="flip-back">
+
+               ${backMedia}
+
+               <div class="flip-body">
+
+                  <div class="flip-title">
+                     ${backTitle}
+                  </div>
+
+                  <div class="flip-text">
+                     ${backContent}
+                  </div>
+
+               </div>
+
+               <button class="flip-toggle">
+                  <i class="fas fa-sync-alt"></i>
+               </button>
+
+            </div>
+
+         </div>
+
+      `;
+
+      previewGrid.appendChild(flipCard);
+
+   });
+
+   previewSection.style.display = "block";
+
+   window.scrollTo({
+      top: previewSection.offsetTop,
+      behavior: "smooth"
+   });
+
+   setupFlipCards();
+
+});
+
+function setupFlipCards() {
+
+   const cards = document.querySelectorAll(".flip-card");
+
+   cards.forEach(card => {
+
+      card.addEventListener("click", function(e) {
+
+         if (
+            e.target.closest(".flip-toggle") ||
+            !e.target.closest("video")
+         ) {
+            this.classList.toggle("flipped");
+         }
+
+      });
+
+   });
+
+}
+
+document.getElementById("backBtn").addEventListener("click", function() {
+
+   document.getElementById("previewSection").style.display = "none";
+
+   window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+   });
+
+});
+
+document.getElementById("submitBtn").addEventListener("click", function() {
+
+   alert("Flip cards submitted successfully!");
+
+});
+
+</script>
+
+</body>
+</html>
