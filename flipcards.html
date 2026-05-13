@@ -108,7 +108,12 @@
       .preview-section {
          display: none;
          margin-top: 50px;
+        min-height: 100vh;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
       }
+  
 
       .preview-grid {
          display: grid;
@@ -571,9 +576,40 @@ document.getElementById("backBtn").addEventListener("click", function() {
 
 });
 
-document.getElementById("submitBtn").addEventListener("click", function() {
+document.getElementById("submitBtn").addEventListener("click", function () {
 
-   alert("Flip cards submitted successfully!");
+   // HIDE BUILDER SECTION
+   document.querySelector(".builder-box > h1").style.display = "none";
+   document.getElementById("cardContainer").style.display = "none";
+   document.getElementById("addRowBtn").style.display = "none";
+   document.querySelector(".action-buttons").style.display = "none";
+   document.getElementById("previewSection").style.display = "none";
+
+   // CREATE FINAL PAGE
+   const finalSection = document.createElement("div");
+
+   finalSection.className = "mt-5";
+
+   finalSection.innerHTML = `
+      <h1 class="mb-5 text-center">
+         Final Flip Cards
+      </h1>
+
+      <div class="preview-grid">
+         ${document.getElementById("previewGrid").innerHTML}
+      </div>
+   `;
+
+   document.querySelector(".builder-box").appendChild(finalSection);
+
+   // RE-ENABLE FLIPPING
+   setupFlipCards();
+
+   // SCROLL TO TOP
+   window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+   });
 
 });
 
