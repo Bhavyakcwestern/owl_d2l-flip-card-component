@@ -1,185 +1,233 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="UTF-8">
 
-   <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <!-- Font Awesome -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Bootstrap -->
 
-   <title>Flip Card Builder</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-   <style>
+<!-- Font Awesome -->
 
-      body {
-         background: #f7f7f7;
-         padding: 40px 0;
-      }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-      .builder-box {
-         background: white;
-         border-radius: 12px;
-         padding: 35px;
-         box-shadow: 0 5px 18px rgba(0,0,0,.08);
-      }
+<title>H5P Style Flip Cards</title>
 
-      .card-builder {
-         border: 1px solid #ddd;
-         border-radius: 12px;
-         padding: 25px;
-         margin-bottom: 30px;
-         background: white;
-      }
+<style>
 
-      .tabs {
-         display: flex;
-         border-bottom: 2px solid #eee;
-         margin-bottom: 25px;
-      }
+body{
+   background:#f3f3f3;
+   font-family:Arial,sans-serif;
+   padding:40px 0;
+}
 
-      .tab-btn {
-         border: none;
-         background: none;
-         padding: 12px 24px;
-         cursor: pointer;
-         font-weight: 600;
-         border-bottom: 3px solid transparent;
-      }
+.builder-box{
+   background:white;
+   border-radius:14px;
+   padding:35px;
+   box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
 
-      .tab-btn.active {
-         color: #007bff;
-         border-color: #007bff;
-      }
+.card-builder{
+   border:1px solid #ddd;
+   border-radius:12px;
+   padding:25px;
+   margin-bottom:30px;
+   background:white;
+}
 
-      .tab-content {
-         display: none;
-      }
+.tabs{
+   display:flex;
+   border-bottom:2px solid #eee;
+   margin-bottom:25px;
+}
 
-      .tab-content.active {
-         display: block;
-      }
+.tab-btn{
+   border:none;
+   background:none;
+   padding:12px 24px;
+   cursor:pointer;
+   font-weight:600;
+   border-bottom:3px solid transparent;
+}
 
-      .preview-section,
-      .generated-section {
-         display: none;
-         margin-top: 50px;
-         background: white;
-         padding: 30px;
-         border-radius: 12px;
-      }
+.tab-btn.active{
+   color:#007bff;
+   border-color:#007bff;
+}
 
-      .preview-grid {
-         display: grid;
-         grid-template-columns: repeat(2,1fr);
-         gap: 30px;
-      }
+.tab-content{
+   display:none;
+}
 
-      @media(max-width:768px) {
+.tab-content.active{
+   display:block;
+}
 
-         .preview-grid {
-            grid-template-columns: 1fr;
-         }
+.media-preview img{
+   width:120px;
+   border-radius:8px;
+   margin-top:10px;
+}
 
-      }
+.preview-section,
+.generated-section{
+   display:none;
+   margin-top:50px;
+   background:white;
+   padding:35px;
+   border-radius:14px;
+}
 
-      /* FLIP CARD */
+/* SLIDER */
 
-      .flip-card {
-         perspective: 1200px;
-         height: 500px;
-         cursor: pointer;
-      }
+.slider-wrapper{
+   position:relative;
+   width:100%;
+}
 
-      .flip-inner {
-         position: relative;
-         width: 100%;
-         height: 100%;
-         transition: transform .8s;
-         transform-style: preserve-3d;
-      }
+.slider-track{
+   display:flex;
+   gap:25px;
+   overflow-x:auto;
+   scroll-behavior:smooth;
+   padding-bottom:10px;
+}
 
-      .flip-card.flipped .flip-inner {
-         transform: rotateY(180deg);
-      }
+.slider-track::-webkit-scrollbar{
+   display:none;
+}
 
-      .flip-front,
-      .flip-back {
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         backface-visibility: hidden;
-         border-radius: 12px;
-         overflow: hidden;
-         background: white;
-         border: 2px solid #ddd;
-         box-shadow: 0 5px 20px rgba(0,0,0,.08);
-      }
+/* CARD */
 
-      .flip-back {
-         transform: rotateY(180deg);
-      }
+.flip-card{
+   flex:0 0 calc(50% - 15px);
+   max-width:calc(50% - 15px);
+   display:flex;
+   justify-content:center;
+}
 
-      .flip-media {
-         width: 100%;
-         height: 220px;
-         object-fit: cover;
-      }
+.flip-inner{
+   width:100%;
+   height:520px;
+   position:relative;
+   transform-style:preserve-3d;
+   transition:transform .8s;
+}
 
-      .flip-body {
-         padding: 24px;
-      }
+.flip-card.flipped .flip-inner{
+   transform:rotateY(180deg);
+}
 
-      .flip-title {
-         font-size: 1.4rem;
-         font-weight: 700;
-         margin-bottom: 15px;
-      }
+.flip-front,
+.flip-back{
+   position:absolute;
+   width:100%;
+   height:100%;
+   background:#f8f8f8;
+   border-radius:12px;
+   backface-visibility:hidden;
+   box-shadow:0 5px 18px rgba(0,0,0,.08);
+   overflow:hidden;
+}
 
-      .flip-text {
-         line-height: 1.7;
-         color: #555;
-      }
+.flip-back{
+   transform:rotateY(180deg);
+}
 
-      .media-preview img {
-         width: 120px;
-         border-radius: 8px;
-         margin-top: 10px;
-      }
+.flip-media{
+   width:100%;
+   height:260px;
+   object-fit:cover;
+}
 
-      textarea {
-         resize: vertical;
-      }
+.flip-body{
+   text-align:center;
+   padding:25px;
+}
 
-      .action-buttons {
-         margin-top: 30px;
-         display: flex;
-         gap: 15px;
-         flex-wrap: wrap;
-      }
+.flip-title{
+   font-size:1.7rem;
+   font-weight:600;
+   margin-bottom:16px;
+}
 
-      #generatedCode {
-         font-family: monospace;
-      }
+.flip-text{
+   font-size:1rem;
+   line-height:1.7;
+   color:#555;
+}
 
-   </style>
+.turn-btn{
+   margin-top:25px;
+   border:none;
+   background:#1976d2;
+   color:white;
+   padding:12px 28px;
+   border-radius:40px;
+   font-size:1rem;
+   font-weight:600;
+   cursor:pointer;
+}
+
+.nav-controls{
+   display:flex;
+   justify-content:space-between;
+   align-items:center;
+   margin-top:25px;
+}
+
+.nav-btn{
+   width:60px;
+   height:60px;
+   border:none;
+   border-radius:50%;
+   background:#1976d2;
+   color:white;
+   font-size:1.4rem;
+   cursor:pointer;
+}
+
+textarea{
+   resize:vertical;
+   font-family:monospace;
+}
+
+@media(max-width:768px){
+
+.flip-card{
+   flex:0 0 100%;
+   max-width:100%;
+}
+
+.flip-inner{
+   height:500px;
+}
+
+.flip-media{
+   height:240px;
+}
+
+}
+
+</style>
 
 </head><body><div class="container">
-<div class="builder-box"><!-- MAIN TITLE -->
+<div class="builder-box"><!-- TITLE -->
 <div class="form-group mb-5"><label>&nbsp;<strong>Main Flip Card Title</strong> </label> <input type="text" class="form-control" id="mainFlipTitle" placeholder="Enter title"></div>
 <!-- CARD CONTAINER -->
 <div id="cardContainer"></div>
-<!-- ADD ROW --> <button class="btn btn-outline-primary mb-4" id="addRowBtn"> <i class="fas fa-plus"></i> Add Row </button> <!-- ACTIONS -->
-<div class="action-buttons"><button class="btn btn-primary" id="previewBtn"> Preview </button></div>
+<!-- ADD --> <button class="btn btn-outline-primary mb-4" id="addRowBtn"> <i class="fas fa-plus"></i> Add Row </button> <!-- ACTIONS -->
+<div><button class="btn btn-primary" id="previewBtn"> Preview </button></div>
 <!-- PREVIEW -->
 <div class="preview-section" id="previewSection">
-<h2 class="mb-4">Preview</h2>
-<div class="preview-grid" id="previewGrid"></div>
-<div class="action-buttons"><button class="btn btn-secondary" id="backBtn"> Back </button> <button class="btn btn-success" id="submitBtn"> Generate Final HTML </button></div>
+<h2 class="mb-5 text-center">Preview</h2>
+<div id="previewContainer"></div>
+<div class="mt-4"><button class="btn btn-secondary" id="backBtn"> Back </button> <button class="btn btn-success" id="submitBtn"> Generate Final HTML </button></div>
 </div>
-<!-- GENERATED HTML -->
+<!-- GENERATED -->
 <div class="generated-section" id="generatedSection">
 <h2 class="mb-4">Copy Final HTML</h2>
 <textarea id="generatedCode" class="form-control" rows="22"></textarea> <button class="btn btn-primary mt-3" id="copyCodeBtn"> <i class="fas fa-copy"></i> Copy Final HTML </button></div>
@@ -189,17 +237,17 @@
 
 let cardCount = 0;
 
-/* CREATE CARD BUILDER */
+/* CREATE CARD */
 
-function createCardBuilder() {
+function createCardBuilder(){
 
    cardCount++;
 
-   const wrapper = document.createElement("div");
+   const wrapper=document.createElement("div");
 
-   wrapper.className = "card-builder";
+   wrapper.className="card-builder";
 
-   wrapper.innerHTML = `
+   wrapper.innerHTML=`
 
       <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -357,21 +405,21 @@ function createCardBuilder() {
 
 /* TABS */
 
-function setupTabs(wrapper) {
+function setupTabs(wrapper){
 
    wrapper
       .querySelectorAll(".tab-btn")
-      .forEach(btn => {
+      .forEach(btn=>{
 
-      btn.addEventListener("click", function() {
+      btn.addEventListener("click",function(){
 
          wrapper
             .querySelectorAll(".tab-btn")
-            .forEach(b => b.classList.remove("active"));
+            .forEach(b=>b.classList.remove("active"));
 
          wrapper
             .querySelectorAll(".tab-content")
-            .forEach(c => c.classList.remove("active"));
+            .forEach(c=>c.classList.remove("active"));
 
          this.classList.add("active");
 
@@ -387,11 +435,11 @@ function setupTabs(wrapper) {
 
 /* DELETE */
 
-function setupDelete(wrapper) {
+function setupDelete(wrapper){
 
    wrapper
       .querySelector(".delete-btn")
-      .addEventListener("click", function() {
+      .addEventListener("click",function(){
 
       wrapper.remove();
 
@@ -399,31 +447,31 @@ function setupDelete(wrapper) {
 
 }
 
-/* BASE64 IMAGE/GIF */
+/* BASE64 */
 
-function setupFilePreview(wrapper) {
+function setupFilePreview(wrapper){
 
    wrapper
       .querySelectorAll("input[type='file']")
-      .forEach(input => {
+      .forEach(input=>{
 
-      input.addEventListener("change", function() {
+      input.addEventListener("change",function(){
 
-         const file = this.files[0];
+         const file=this.files[0];
 
          if(!file) return;
 
-         const reader = new FileReader();
+         const reader=new FileReader();
 
-         reader.onload = (e) => {
+         reader.onload=(e)=>{
 
-            const base64 = e.target.result;
+            const base64=e.target.result;
 
-            input.dataset.base64 = base64;
+            input.dataset.base64=base64;
 
             this.parentElement
                .querySelector(".media-preview")
-               .innerHTML = `
+               .innerHTML=`
                   <img src="${base64}">
                `;
 
@@ -437,11 +485,11 @@ function setupFilePreview(wrapper) {
 
 }
 
-/* MEDIA HTML */
+/* MEDIA */
 
-function getMediaHTML(fileInput) {
+function getMediaHTML(fileInput){
 
-   const base64 = fileInput.dataset.base64;
+   const base64=fileInput.dataset.base64;
 
    if(!base64) return "";
 
@@ -454,44 +502,42 @@ function getMediaHTML(fileInput) {
 
 }
 
-/* BUILD CARD HTML */
+/* BUILD SLIDER */
 
-function buildCardsHTML() {
+function buildSliderHTML(){
 
-   let cardsHTML = "";
+   let slidesHTML="";
 
-   document
-      .querySelectorAll(".card-builder")
-      .forEach(builder => {
+   const cards=
+      document.querySelectorAll(".card-builder");
 
-      const frontTitle =
+   cards.forEach((builder)=>{
+
+      const frontTitle=
          builder.querySelector(".front-title").value;
 
-      const frontContent =
+      const frontContent=
          builder.querySelector(".front-content").value;
 
-      const backTitle =
+      const backTitle=
          builder.querySelector(".back-title").value;
 
-      const backContent =
+      const backContent=
          builder.querySelector(".back-content").value;
 
-      const frontMedia =
+      const frontMedia=
          getMediaHTML(
             builder.querySelector(".front-file")
          );
 
-      const backMedia =
+      const backMedia=
          getMediaHTML(
             builder.querySelector(".back-file")
          );
 
-      cardsHTML += `
+      slidesHTML+=`
 
-<div
-   class="flip-card"
-   onclick="this.classList.toggle('flipped')"
->
+<div class="flip-card">
 
    <div class="flip-inner">
 
@@ -510,6 +556,19 @@ function buildCardsHTML() {
             <div class="flip-text">
                ${frontContent}
             </div>
+
+            <button
+               class="turn-btn"
+               onclick="
+               this.closest('.flip-card')
+               .classList.toggle('flipped')
+               "
+            >
+
+               <i class="fas fa-sync-alt"></i>
+               Turn
+
+            </button>
 
          </div>
 
@@ -531,6 +590,19 @@ function buildCardsHTML() {
                ${backContent}
             </div>
 
+            <button
+               class="turn-btn"
+               onclick="
+               this.closest('.flip-card')
+               .classList.toggle('flipped')
+               "
+            >
+
+               <i class="fas fa-sync-alt"></i>
+               Turn
+
+            </button>
+
          </div>
 
       </div>
@@ -543,119 +615,7 @@ function buildCardsHTML() {
 
    });
 
-   return cardsHTML;
-
-}
-
-/* PREVIEW */
-
-function generatePreview() {
-
-   document
-      .getElementById("previewGrid")
-      .innerHTML = buildCardsHTML();
-
-}
-
-/* FINAL COMPLETE HTML */
-
-function generateFinalHTML() {
-
-   const cardsHTML = buildCardsHTML();
-
-   return `<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Flip Cards</title>
-
-<style>
-
-body{
-font-family:Arial,sans-serif;
-background:#f7f7f7;
-padding:40px;
-}
-
-.preview-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:30px;
-}
-
-@media(max-width:768px){
-.preview-grid{
-grid-template-columns:1fr;
-}
-}
-
-.flip-card{
-perspective:1200px;
-height:500px;
-cursor:pointer;
-}
-
-.flip-inner{
-position:relative;
-width:100%;
-height:100%;
-transition:transform .8s;
-transform-style:preserve-3d;
-}
-
-.flip-card.flipped .flip-inner{
-transform:rotateY(180deg);
-}
-
-.flip-front,
-.flip-back{
-position:absolute;
-width:100%;
-height:100%;
-backface-visibility:hidden;
-border-radius:12px;
-overflow:hidden;
-background:white;
-border:2px solid #ddd;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.flip-back{
-transform:rotateY(180deg);
-}
-
-.flip-media{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.flip-body{
-padding:24px;
-}
-
-.flip-title{
-font-size:1.4rem;
-font-weight:700;
-margin-bottom:15px;
-}
-
-.flip-text{
-line-height:1.7;
-color:#555;
-}
-
-</style>
-
-</head>
-
-<body>
+   return `
 
 <h1 style="text-align:center;margin-bottom:40px;">
 
@@ -663,60 +623,193 @@ ${document.getElementById("mainFlipTitle").value}
 
 </h1>
 
-<div class="preview-grid">
+<div class="slider-wrapper">
 
-${cardsHTML}
+   <div
+      class="slider-track"
+      id="sliderTrack"
+   >
+
+      ${slidesHTML}
+
+   </div>
 
 </div>
 
-</body>
+<div class="nav-controls">
 
-</html>`;
+   <button
+      class="nav-btn"
+      onclick="prevSlide()"
+   >
+
+      <i class="fas fa-chevron-left"></i>
+
+   </button>
+
+   <button
+      class="nav-btn"
+      onclick="nextSlide()"
+   >
+
+      <i class="fas fa-chevron-right"></i>
+
+   </button>
+
+</div>
+
+   `;
 
 }
+
+/* PREVIEW */
+
+function generatePreview(){
+
+   document
+      .getElementById("previewContainer")
+      .innerHTML=buildSliderHTML();
+
+}
+
+/* FINAL FULL HTML */
+
+function generateFinalHTML(){
+
+   return '<!DOCTYPE html>' +
+
+'<html lang="en">' +
+
+'<head>' +
+
+'<meta charset="UTF-8">' +
+
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+
+'<title>Flip Cards</title>' +
+
+'<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">' +
+
+'<style>' +
+
+'body{background:#f3f3f3;font-family:Arial,sans-serif;padding:40px 0;}' +
+
+'.slider-wrapper{position:relative;width:100%;}' +
+
+'.slider-track{display:flex;gap:25px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:10px;}' +
+
+'.slider-track::-webkit-scrollbar{display:none;}' +
+
+'.flip-card{flex:0 0 calc(50% - 15px);max-width:calc(50% - 15px);display:flex;justify-content:center;}' +
+
+'.flip-inner{width:100%;height:520px;position:relative;transform-style:preserve-3d;transition:transform .8s;}' +
+
+'.flip-card.flipped .flip-inner{transform:rotateY(180deg);}' +
+
+'.flip-front,.flip-back{position:absolute;width:100%;height:100%;background:#f8f8f8;border-radius:12px;backface-visibility:hidden;box-shadow:0 5px 18px rgba(0,0,0,.08);overflow:hidden;}' +
+
+'.flip-back{transform:rotateY(180deg);}' +
+
+'.flip-media{width:100%;height:260px;object-fit:cover;}' +
+
+'.flip-body{text-align:center;padding:25px;}' +
+
+'.flip-title{font-size:1.7rem;font-weight:600;margin-bottom:16px;}' +
+
+'.flip-text{font-size:1rem;line-height:1.7;color:#555;}' +
+
+'.turn-btn{margin-top:25px;border:none;background:#1976d2;color:white;padding:12px 28px;border-radius:40px;font-size:1rem;font-weight:600;cursor:pointer;}' +
+
+'.nav-controls{display:flex;justify-content:space-between;align-items:center;margin-top:25px;}' +
+
+'.nav-btn{width:60px;height:60px;border:none;border-radius:50%;background:#1976d2;color:white;font-size:1.4rem;cursor:pointer;}' +
+
+'@media(max-width:768px){.flip-card{flex:0 0 100%;max-width:100%;}.flip-inner{height:500px;}.flip-media{height:240px;}}' +
+
+'</style>' +
+
+'</head>' +
+
+'<body>' +
+
+buildSliderHTML() +
+
+'<script>' +
+
+'function nextSlide(){document.getElementById("sliderTrack").scrollBy({left:700,behavior:"smooth"});}' +
+
+'function prevSlide(){document.getElementById("sliderTrack").scrollBy({left:-700,behavior:"smooth"});}' +
+
+'<\/script>' +
+
+'</body>' +
+
+'</html>';
+
+}
+
+/* COPY */
+
+document
+   .getElementById("copyCodeBtn")
+   .addEventListener("click",function(){
+
+   const textarea=
+      document.getElementById("generatedCode");
+
+   textarea.select();
+
+   document.execCommand("copy");
+
+   this.innerHTML=`
+      <i class="fas fa-check"></i>
+      Copied!
+   `;
+
+});
 
 /* BUTTONS */
 
 document
    .getElementById("addRowBtn")
-   .addEventListener("click", createCardBuilder);
+   .addEventListener("click",createCardBuilder);
 
 document
    .getElementById("previewBtn")
-   .addEventListener("click", function() {
+   .addEventListener("click",function(){
 
    generatePreview();
 
    document
       .getElementById("previewSection")
-      .style.display = "block";
+      .style.display="block";
 
 });
 
 document
    .getElementById("backBtn")
-   .addEventListener("click", function() {
+   .addEventListener("click",function(){
 
    document
       .getElementById("previewSection")
-      .style.display = "none";
+      .style.display="none";
 
 });
 
 document
    .getElementById("submitBtn")
-   .addEventListener("click", function() {
+   .addEventListener("click",function(){
 
-   const finalHTML =
+   const finalHTML=
       generateFinalHTML();
 
    document
       .getElementById("generatedCode")
-      .value = finalHTML;
+      .value=finalHTML;
 
    document
       .getElementById("generatedSection")
-      .style.display = "block";
+      .style.display="block";
 
    window.scrollTo({
 
@@ -729,23 +822,33 @@ document
 
 });
 
-document
-   .getElementById("copyCodeBtn")
-   .addEventListener("click", function() {
+/* SCROLL NAVIGATION */
 
-   const textarea =
-      document.getElementById("generatedCode");
+function nextSlide(){
 
-   textarea.select();
+   document
+      .getElementById("sliderTrack")
+      .scrollBy({
 
-   document.execCommand("copy");
+         left:700,
+         behavior:"smooth"
 
-   this.innerHTML = `
-      <i class="fas fa-check"></i>
-      Copied!
-   `;
+      });
 
-});
+}
+
+function prevSlide(){
+
+   document
+      .getElementById("sliderTrack")
+      .scrollBy({
+
+         left:-700,
+         behavior:"smooth"
+
+      });
+
+}
 
 /* INIT */
 
