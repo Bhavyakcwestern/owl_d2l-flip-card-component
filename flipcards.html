@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Bootstrap -->
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <!-- Font Awesome -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <title>H5P Style Flip Cards</title>
@@ -111,7 +110,7 @@ body{
 
 .flip-inner{
    width:100%;
-   height:520px;
+   height:620px;
    position:relative;
    transform-style:preserve-3d;
    transition:transform .8s;
@@ -130,7 +129,7 @@ body{
    border-radius:12px;
    backface-visibility:hidden;
    box-shadow:0 5px 18px rgba(0,0,0,.08);
-   overflow:hidden;
+   overflow:auto;
 }
 
 .flip-back{
@@ -195,6 +194,11 @@ textarea{
    font-family:monospace;
 }
 
+audio{
+   width:100%;
+   margin-top:15px;
+}
+
 @media(max-width:768px){
 
 .flip-card{
@@ -203,7 +207,7 @@ textarea{
 }
 
 .flip-inner{
-   height:500px;
+   height:620px;
 }
 
 .flip-media{
@@ -214,26 +218,106 @@ textarea{
 
 </style>
 
-</head><body><div class="container">
-<div class="builder-box"><!-- TITLE -->
-<div class="form-group mb-5"><label>&nbsp;<strong>Main Flip Card Title</strong> </label> <input type="text" class="form-control" id="mainFlipTitle" placeholder="Enter title"></div>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="builder-box">
+
+<!-- TITLE -->
+
+<div class="form-group mb-5">
+
+<label>
+<strong>Main Flip Card Title</strong>
+</label>
+
+<input
+   type="text"
+   class="form-control"
+   id="mainFlipTitle"
+   placeholder="Enter title"
+>
+
+</div>
+
 <!-- CARD CONTAINER -->
+
 <div id="cardContainer"></div>
-<!-- ADD --> <button class="btn btn-outline-primary mb-4" id="addRowBtn"> <i class="fas fa-plus"></i> Add Row </button> <!-- ACTIONS -->
-<div><button class="btn btn-primary" id="previewBtn"> Preview </button></div>
+
+<!-- ADD -->
+
+<button class="btn btn-outline-primary mb-4" id="addRowBtn">
+
+<i class="fas fa-plus"></i>
+Add Row
+
+</button>
+
+<!-- ACTIONS -->
+
+<div>
+
+<button class="btn btn-primary" id="previewBtn">
+Preview
+</button>
+
+</div>
+
 <!-- PREVIEW -->
+
 <div class="preview-section" id="previewSection">
-<h2 class="mb-5 text-center">Preview</h2>
+
+<h2 class="mb-5 text-center">
+Preview
+</h2>
+
 <div id="previewContainer"></div>
-<div class="mt-4"><button class="btn btn-secondary" id="backBtn"> Back </button> <button class="btn btn-success" id="submitBtn"> Generate Final HTML </button></div>
+
+<div class="mt-4">
+
+<button class="btn btn-secondary" id="backBtn">
+Back
+</button>
+
+<button class="btn btn-success" id="submitBtn">
+Generate Final HTML
+</button>
+
 </div>
+
+</div>
+
 <!-- GENERATED -->
+
 <div class="generated-section" id="generatedSection">
-<h2 class="mb-4">Copy Final HTML</h2>
-<textarea id="generatedCode" class="form-control" rows="22"></textarea> <button class="btn btn-primary mt-3" id="copyCodeBtn"> <i class="fas fa-copy"></i> Copy Final HTML </button></div>
+
+<h2 class="mb-4">
+Copy Final HTML
+</h2>
+
+<textarea
+   id="generatedCode"
+   class="form-control"
+   rows="22"
+></textarea>
+
+<button class="btn btn-primary mt-3" id="copyCodeBtn">
+
+<i class="fas fa-copy"></i>
+Copy Final HTML
+
+</button>
+
 </div>
+
 </div>
-<p><script>
+
+</div>
+
+<script>
 
 let cardCount = 0;
 
@@ -251,13 +335,9 @@ function createCardBuilder(){
 
       <div class="d-flex justify-content-between align-items-center mb-4">
 
-         <h4>
-            Row ${cardCount}
-         </h4>
+         <h4>Row ${cardCount}</h4>
 
-         <button
-            class="btn btn-outline-danger delete-btn"
-         >
+         <button class="btn btn-outline-danger delete-btn">
 
             <i class="fas fa-trash"></i>
 
@@ -273,28 +353,21 @@ function createCardBuilder(){
             class="tab-btn active"
             data-tab="front-${cardCount}"
          >
-
             Front
-
          </button>
 
          <button
             class="tab-btn"
             data-tab="back-${cardCount}"
          >
-
             Back
-
          </button>
 
       </div>
 
       <!-- FRONT -->
 
-      <div
-         class="tab-content active"
-         id="front-${cardCount}"
-      >
+      <div class="tab-content active" id="front-${cardCount}">
 
          <div class="form-group">
 
@@ -338,14 +411,27 @@ function createCardBuilder(){
 
          </div>
 
+         <div class="form-group mt-3">
+
+            <label>
+               <strong>Upload Audio</strong>
+            </label>
+
+            <input
+               type="file"
+               class="form-control-file front-audio"
+               accept="audio/*"
+            >
+
+            <div class="audio-preview"></div>
+
+         </div>
+
       </div>
 
       <!-- BACK -->
 
-      <div
-         class="tab-content"
-         id="back-${cardCount}"
-      >
+      <div class="tab-content" id="back-${cardCount}">
 
          <div class="form-group">
 
@@ -386,6 +472,22 @@ function createCardBuilder(){
             >
 
             <div class="media-preview"></div>
+
+         </div>
+
+         <div class="form-group mt-3">
+
+            <label>
+               <strong>Upload Audio</strong>
+            </label>
+
+            <input
+               type="file"
+               class="form-control-file back-audio"
+               accept="audio/*"
+            >
+
+            <div class="audio-preview"></div>
 
          </div>
 
@@ -447,7 +549,7 @@ function setupDelete(wrapper){
 
 }
 
-/* BASE64 */
+/* FILE PREVIEW */
 
 function setupFilePreview(wrapper){
 
@@ -469,11 +571,48 @@ function setupFilePreview(wrapper){
 
             input.dataset.base64=base64;
 
-            this.parentElement
-               .querySelector(".media-preview")
-               .innerHTML=`
-                  <img src="${base64}">
-               `;
+            /* IMAGE */
+
+            if(file.type.startsWith("image")){
+
+               const mediaPreview=
+                  this.parentElement.querySelector(".media-preview");
+
+               if(mediaPreview){
+
+                  mediaPreview.innerHTML=`
+                     <img src="${base64}">
+                  `;
+
+               }
+
+            }
+
+            /* AUDIO */
+
+            if(file.type.startsWith("audio")){
+
+               const audioPreview=
+                  this.parentElement.querySelector(".audio-preview");
+
+               if(audioPreview){
+
+                  audioPreview.innerHTML=`
+
+                     <audio controls>
+
+                        <source
+                           src="${base64}"
+                           type="${file.type}"
+                        >
+
+                     </audio>
+
+                  `;
+
+               }
+
+            }
 
          };
 
@@ -485,7 +624,7 @@ function setupFilePreview(wrapper){
 
 }
 
-/* MEDIA */
+/* IMAGE HTML */
 
 function getMediaHTML(fileInput){
 
@@ -498,6 +637,30 @@ function getMediaHTML(fileInput){
          src="${base64}"
          class="flip-media"
       >
+   `;
+
+}
+
+/* AUDIO HTML */
+
+function getAudioHTML(audioInput){
+
+   const base64=audioInput.dataset.base64;
+
+   if(!base64) return "";
+
+   return `
+
+      <div style="padding:15px;">
+
+         <audio controls>
+
+            <source src="${base64}">
+
+         </audio>
+
+      </div>
+
    `;
 
 }
@@ -535,6 +698,16 @@ function buildSliderHTML(){
             builder.querySelector(".back-file")
          );
 
+      const frontAudio=
+         getAudioHTML(
+            builder.querySelector(".front-audio")
+         );
+
+      const backAudio=
+         getAudioHTML(
+            builder.querySelector(".back-audio")
+         );
+
       slidesHTML+=`
 
 <div class="flip-card">
@@ -547,14 +720,20 @@ function buildSliderHTML(){
 
          ${frontMedia}
 
+         ${frontAudio}
+
          <div class="flip-body">
 
             <div class="flip-title">
+
                ${frontTitle}
+
             </div>
 
             <div class="flip-text">
+
                ${frontContent}
+
             </div>
 
             <button
@@ -566,6 +745,7 @@ function buildSliderHTML(){
             >
 
                <i class="fas fa-sync-alt"></i>
+
                Turn
 
             </button>
@@ -580,14 +760,20 @@ function buildSliderHTML(){
 
          ${backMedia}
 
+         ${backAudio}
+
          <div class="flip-body">
 
             <div class="flip-title">
+
                ${backTitle}
+
             </div>
 
             <div class="flip-text">
+
                ${backContent}
+
             </div>
 
             <button
@@ -599,6 +785,7 @@ function buildSliderHTML(){
             >
 
                <i class="fas fa-sync-alt"></i>
+
                Turn
 
             </button>
@@ -672,79 +859,200 @@ function generatePreview(){
 
 }
 
-/* FINAL FULL HTML */
+/* FINAL HTML */
 
 function generateFinalHTML(){
 
-   return '<!DOCTYPE html>' +
+   return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-'<html lang="en">' +
+<meta charset="UTF-8">
 
-'<head>' +
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-'<meta charset="UTF-8">' +
+<title>Flip Cards</title>
 
-'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-'<title>Flip Cards</title>' +
+<style>
 
-'<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">' +
+body{
+   background:#f3f3f3;
+   font-family:Arial,sans-serif;
+   padding:40px 0;
+}
 
-'<style>' +
+.slider-wrapper{
+   position:relative;
+   width:100%;
+}
 
-'body{background:#f3f3f3;font-family:Arial,sans-serif;padding:40px 0;}' +
+.slider-track{
+   display:flex;
+   gap:25px;
+   overflow-x:auto;
+   scroll-behavior:smooth;
+   padding-bottom:10px;
+}
 
-'.slider-wrapper{position:relative;width:100%;}' +
+.slider-track::-webkit-scrollbar{
+   display:none;
+}
 
-'.slider-track{display:flex;gap:25px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:10px;}' +
+.flip-card{
+   flex:0 0 calc(50% - 15px);
+   max-width:calc(50% - 15px);
+   display:flex;
+   justify-content:center;
+}
 
-'.slider-track::-webkit-scrollbar{display:none;}' +
+.flip-inner{
+   width:100%;
+   height:620px;
+   position:relative;
+   transform-style:preserve-3d;
+   transition:transform .8s;
+}
 
-'.flip-card{flex:0 0 calc(50% - 15px);max-width:calc(50% - 15px);display:flex;justify-content:center;}' +
+.flip-card.flipped .flip-inner{
+   transform:rotateY(180deg);
+}
 
-'.flip-inner{width:100%;height:520px;position:relative;transform-style:preserve-3d;transition:transform .8s;}' +
+.flip-front,
+.flip-back{
+   position:absolute;
+   width:100%;
+   height:100%;
+   background:#f8f8f8;
+   border-radius:12px;
+   backface-visibility:hidden;
+   box-shadow:0 5px 18px rgba(0,0,0,.08);
+   overflow:auto;
+}
 
-'.flip-card.flipped .flip-inner{transform:rotateY(180deg);}' +
+.flip-back{
+   transform:rotateY(180deg);
+}
 
-'.flip-front,.flip-back{position:absolute;width:100%;height:100%;background:#f8f8f8;border-radius:12px;backface-visibility:hidden;box-shadow:0 5px 18px rgba(0,0,0,.08);overflow:hidden;}' +
+.flip-media{
+   width:100%;
+   height:260px;
+   object-fit:cover;
+}
 
-'.flip-back{transform:rotateY(180deg);}' +
+.flip-body{
+   text-align:center;
+   padding:25px;
+}
 
-'.flip-media{width:100%;height:260px;object-fit:cover;}' +
+.flip-title{
+   font-size:1.7rem;
+   font-weight:600;
+   margin-bottom:16px;
+}
 
-'.flip-body{text-align:center;padding:25px;}' +
+.flip-text{
+   font-size:1rem;
+   line-height:1.7;
+   color:#555;
+}
 
-'.flip-title{font-size:1.7rem;font-weight:600;margin-bottom:16px;}' +
+.turn-btn{
+   margin-top:25px;
+   border:none;
+   background:#1976d2;
+   color:white;
+   padding:12px 28px;
+   border-radius:40px;
+   font-size:1rem;
+   font-weight:600;
+   cursor:pointer;
+}
 
-'.flip-text{font-size:1rem;line-height:1.7;color:#555;}' +
+.nav-controls{
+   display:flex;
+   justify-content:space-between;
+   align-items:center;
+   margin-top:25px;
+}
 
-'.turn-btn{margin-top:25px;border:none;background:#1976d2;color:white;padding:12px 28px;border-radius:40px;font-size:1rem;font-weight:600;cursor:pointer;}' +
+.nav-btn{
+   width:60px;
+   height:60px;
+   border:none;
+   border-radius:50%;
+   background:#1976d2;
+   color:white;
+   font-size:1.4rem;
+   cursor:pointer;
+}
 
-'.nav-controls{display:flex;justify-content:space-between;align-items:center;margin-top:25px;}' +
+audio{
+   width:100%;
+   margin-top:15px;
+}
 
-'.nav-btn{width:60px;height:60px;border:none;border-radius:50%;background:#1976d2;color:white;font-size:1.4rem;cursor:pointer;}' +
+@media(max-width:768px){
 
-'@media(max-width:768px){.flip-card{flex:0 0 100%;max-width:100%;}.flip-inner{height:500px;}.flip-media{height:240px;}}' +
+.flip-card{
+   flex:0 0 100%;
+   max-width:100%;
+}
 
-'</style>' +
+.flip-inner{
+   height:620px;
+}
 
-'</head>' +
+.flip-media{
+   height:240px;
+}
 
-'<body>' +
+}
 
-buildSliderHTML() +
+</style>
 
-'<script>' +
+</head>
 
-'function nextSlide(){document.getElementById("sliderTrack").scrollBy({left:700,behavior:"smooth"});}' +
+<body>
 
-'function prevSlide(){document.getElementById("sliderTrack").scrollBy({left:-700,behavior:"smooth"});}' +
+${buildSliderHTML()}
 
-'<\/script>' +
+<script>
 
-'</body>' +
+function nextSlide(){
 
-'</html>';
+   document
+      .getElementById("sliderTrack")
+      .scrollBy({
+
+         left:700,
+         behavior:"smooth"
+
+      });
+
+}
+
+function prevSlide(){
+
+   document
+      .getElementById("sliderTrack")
+      .scrollBy({
+
+         left:-700,
+         behavior:"smooth"
+
+      });
+
+}
+
+<\/script>
+
+</body>
+</html>
+`;
 
 }
 
@@ -762,8 +1070,11 @@ document
    document.execCommand("copy");
 
    this.innerHTML=`
+
       <i class="fas fa-check"></i>
+
       Copied!
+
    `;
 
 });
@@ -822,7 +1133,7 @@ document
 
 });
 
-/* SCROLL NAVIGATION */
+/* SLIDER NAVIGATION */
 
 function nextSlide(){
 
@@ -854,4 +1165,7 @@ function prevSlide(){
 
 createCardBuilder();
 
-</script></p></body></html>
+</script>
+
+</body>
+</html>
